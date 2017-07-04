@@ -31,11 +31,19 @@ public class ProductsController {
 	private final Logger logger = LoggerFactory.getLogger(ProductsController.class);
 	
 	@Autowired
-	ProductCatalogListProcessor productCatalogListProcessor; 
+	private ProductCatalogListProcessor productCatalogListProcessor; 
 	
 	@Autowired
-	FetchProductProcessor fetchProductProcessor;
+	private FetchProductProcessor fetchProductProcessor;
 	
+	
+	/**
+	 * Fetch Product Catalog List.
+	 * 
+	 * @param no input parameters needed in the request
+	 * @return  ProductListResponse
+	 * 
+	 */
 	@RequestMapping(value = "/product_catalog_list", method = RequestMethod.POST)
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -43,21 +51,65 @@ public class ProductsController {
 		
 		logger.info("getProductCatalogList() method ");
 		ProductListResponse productList = null;		
-		productList = productCatalogListProcessor.process();		
+		productList = this.getProductCatalogListProcessor().process();		
 		return productList;
 		
 	}
 	
 	
+	
+	/**
+	 * Fetch Product by its id.
+	 * 
+	 * @param ProductIdRequest in the request
+	 * @return  Product
+	 * 
+	 */
 	@RequestMapping(value = "/fetch_Product", method = RequestMethod.POST)
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Product getProductByID(@RequestBody ProductIdRequest productIdRequest){
 		
-		logger.info("getProductCatalogList() method ");
-		//int productId = 2;
-		Product product = fetchProductProcessor.process(productIdRequest.getProductId());		
+		logger.info("getProductByID() method ");
+		Product product = this.getFetchProductProcessor().process(productIdRequest.getProductId());		
 		return product;	
+	}
+
+
+
+	/**
+	 * @return the productCatalogListProcessor
+	 */
+	public ProductCatalogListProcessor getProductCatalogListProcessor() {
+		return productCatalogListProcessor;
+	}
+
+
+
+	/**
+	 * @param productCatalogListProcessor the productCatalogListProcessor to set
+	 */
+	public void setProductCatalogListProcessor(
+			ProductCatalogListProcessor productCatalogListProcessor) {
+		this.productCatalogListProcessor = productCatalogListProcessor;
+	}
+
+
+
+	/**
+	 * @return the fetchProductProcessor
+	 */
+	public FetchProductProcessor getFetchProductProcessor() {
+		return fetchProductProcessor;
+	}
+
+
+
+	/**
+	 * @param fetchProductProcessor the fetchProductProcessor to set
+	 */
+	public void setFetchProductProcessor(FetchProductProcessor fetchProductProcessor) {
+		this.fetchProductProcessor = fetchProductProcessor;
 	}
 	
 	

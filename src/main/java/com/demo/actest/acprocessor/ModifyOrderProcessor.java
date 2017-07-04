@@ -19,12 +19,12 @@ import com.demo.actest.response.ModifyOrderResponse;
 public class ModifyOrderProcessor {
 
 	@Autowired
-	OrderRepository orderRepository;
+	private OrderRepository orderRepository;
 	
-	public ModifyOrderResponse process(ModifyOrderResponse modifyOrderResponse,
-			ModifyOrderRequest modifyOrderRequest) {
+	public ModifyOrderResponse process(ModifyOrderRequest modifyOrderRequest) {
 		
-		String status = orderRepository.modifyOrder(modifyOrderRequest);
+		String status = this.getOrderRepository().modifyOrder(modifyOrderRequest);
+		ModifyOrderResponse modifyOrderResponse = new ModifyOrderResponse();
 		
 		if(status == "Success"){
 			modifyOrderResponse.setOrderNumber(modifyOrderRequest.getOrderNumber());
@@ -36,6 +36,20 @@ public class ModifyOrderProcessor {
 			modifyOrderResponse.setResponseStatus("Failure");
 		}
 		return modifyOrderResponse;
+	}
+
+	/**
+	 * @return the orderRepository
+	 */
+	public OrderRepository getOrderRepository() {
+		return orderRepository;
+	}
+
+	/**
+	 * @param orderRepository the orderRepository to set
+	 */
+	public void setOrderRepository(OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
 	}
 
 }

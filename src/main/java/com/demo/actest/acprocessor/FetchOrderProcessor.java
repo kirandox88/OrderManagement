@@ -18,14 +18,25 @@ import com.demo.actest.response.Order;
 public class FetchOrderProcessor {
 
 	@Autowired
-	OrderRepository orderRepository;
+	private OrderRepository orderRepository;
 
-	public Order process(int orderId) {
-		
-		Order order =  orderRepository.fetchOrderById(orderId);
+	public Order process(int orderId) {		
+		Order order =  this.getOrderRepository().fetchOrderById(orderId);
 		return order;
+	}
 
+	/**
+	 * @return the orderRepository
+	 */
+	public OrderRepository getOrderRepository() {
+		return orderRepository;
+	}
 
+	/**
+	 * @param orderRepository the orderRepository to set
+	 */
+	public void setOrderRepository(OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
 	}
 
 }

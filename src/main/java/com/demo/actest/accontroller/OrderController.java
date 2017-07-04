@@ -36,30 +36,48 @@ public class OrderController {
 	private final Logger logger = LoggerFactory.getLogger(OrderController.class);
 	
 	@Autowired
-	PlaceOrderProcessor placeOrderProcessor; 
+	private PlaceOrderProcessor placeOrderProcessor; 
 	
 	@Autowired
-	ListOrdersProcessor listOrdersProcessor;
+	private ListOrdersProcessor listOrdersProcessor;
 	
 	@Autowired
-	FetchOrderProcessor fetchOrderProcessor;
+	private FetchOrderProcessor fetchOrderProcessor;
 	
 	@Autowired
-	ModifyOrderProcessor modifyOrderProcessor;
+	private ModifyOrderProcessor modifyOrderProcessor;
+	
+	
+	
+
+	/**
+	 * Place Order.
+	 * 
+	 * @param PlaceOrderRequest
+	 *            the input request
+	 * @return PlaceOrderResponse 
+	 * 
+	 */
 	
 	@RequestMapping(value = "/place_order", method = RequestMethod.POST)
 	@Consumes("application/json")
 	@Produces("application/json")
 	public PlaceOrderResponse placeOrder(@RequestBody PlaceOrderRequest placeOrderRequest){
 
-		logger.info("getProductCatalogList() method ");
-		PlaceOrderResponse placeOrderResponse = new PlaceOrderResponse();
-		placeOrderResponse = placeOrderProcessor.process(placeOrderResponse,placeOrderRequest);
+		logger.info("placeOrder() method ");
+		PlaceOrderResponse placeOrderResponse = this.getPlaceOrderProcessor().process(placeOrderRequest);
 		return placeOrderResponse;
 		
 	}
 	
-	
+	/**
+	 * Modify Order.
+	 * 
+	 * @param ModifyOrderRequest
+	 *            the input request
+	 * @return ModifyOrderResponse 
+	 * 
+	 */
 	@RequestMapping(value = "/modify_order", method = RequestMethod.POST)
 	@Consumes("application/json")
 	@Produces("application/json")
@@ -67,34 +85,105 @@ public class OrderController {
 	public ModifyOrderResponse modifyOrder(@RequestBody ModifyOrderRequest modifyOrderRequest){
 
 		logger.info("modifyOrder() method ");
-		ModifyOrderResponse modifyOrderResponse = new ModifyOrderResponse();
-		modifyOrderResponse = modifyOrderProcessor.process(modifyOrderResponse,modifyOrderRequest);
+		ModifyOrderResponse modifyOrderResponse = this.getModifyOrderProcessor().process(modifyOrderRequest);
 		return modifyOrderResponse;
 		
 	}
 	
+	
+	/**
+	 * List all the Orders.
+	 * 
+	 * @param No any input parameters
+	 * @return  ListOrdersResponse
+	 * 
+	 */
 	@RequestMapping(value = "/order_list", method = RequestMethod.POST)
 	@Consumes("application/json")
 	@Produces("application/json")
-	public ListOrdersResponse ListOrders(){
+	public ListOrdersResponse listOrders(){
 
 		logger.info("ListOrders() method ");
-		ListOrdersResponse listOrdersResponse = new ListOrdersResponse();
-		listOrdersResponse = listOrdersProcessor.process();
+		ListOrdersResponse listOrdersResponse = this.getListOrdersProcessor().process();
 		return listOrdersResponse;
 		
 	}
 	
+	
+	
+	/**
+	 * Fetch Order by its id
+	 * 
+	 * @param OrderIdRequest in the request
+	 * @return  Order details
+	 * 
+	 */
 	@RequestMapping(value = "/fetch_Order", method = RequestMethod.POST)
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Order getOrderById(@RequestBody OrderIdRequest orderIdRequest){
 
-		logger.info("ListOrders() method ");
+		logger.info("getOrderById() method ");
 		Order order = new Order();
-		order = fetchOrderProcessor.process(orderIdRequest.getOrderId());
+		order = this.getFetchOrderProcessor().process(orderIdRequest.getOrderId());
 		return order;
 		
+	}
+	
+	/**
+	 * @return the placeOrderProcessor
+	 */
+	public PlaceOrderProcessor getPlaceOrderProcessor() {
+		return placeOrderProcessor;
+	}
+
+	/**
+	 * @param placeOrderProcessor the placeOrderProcessor to set
+	 */
+	public void setPlaceOrderProcessor(PlaceOrderProcessor placeOrderProcessor) {
+		this.placeOrderProcessor = placeOrderProcessor;
+	}
+
+	/**
+	 * @return the listOrdersProcessor
+	 */
+	public ListOrdersProcessor getListOrdersProcessor() {
+		return listOrdersProcessor;
+	}
+
+	/**
+	 * @param listOrdersProcessor the listOrdersProcessor to set
+	 */
+	public void setListOrdersProcessor(ListOrdersProcessor listOrdersProcessor) {
+		this.listOrdersProcessor = listOrdersProcessor;
+	}
+
+	/**
+	 * @return the fetchOrderProcessor
+	 */
+	public FetchOrderProcessor getFetchOrderProcessor() {
+		return fetchOrderProcessor;
+	}
+
+	/**
+	 * @param fetchOrderProcessor the fetchOrderProcessor to set
+	 */
+	public void setFetchOrderProcessor(FetchOrderProcessor fetchOrderProcessor) {
+		this.fetchOrderProcessor = fetchOrderProcessor;
+	}
+
+	/**
+	 * @return the modifyOrderProcessor
+	 */
+	public ModifyOrderProcessor getModifyOrderProcessor() {
+		return modifyOrderProcessor;
+	}
+
+	/**
+	 * @param modifyOrderProcessor the modifyOrderProcessor to set
+	 */
+	public void setModifyOrderProcessor(ModifyOrderProcessor modifyOrderProcessor) {
+		this.modifyOrderProcessor = modifyOrderProcessor;
 	}
 	
 }

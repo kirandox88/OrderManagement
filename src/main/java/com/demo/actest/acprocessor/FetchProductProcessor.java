@@ -18,11 +18,25 @@ import com.demo.actest.response.Product;
 public class FetchProductProcessor {
 
 	@Autowired
-	ProductRepository productRepository;
+	private ProductRepository productRepository;
 
 	public Product process(int productId) {
-		Product product = productRepository.fetchProduct(productId);
+		Product product = this.getProductRepository().fetchProduct(productId);
 		return product;
+	}
+
+	/**
+	 * @return the productRepository
+	 */
+	public ProductRepository getProductRepository() {
+		return productRepository;
+	}
+
+	/**
+	 * @param productRepository the productRepository to set
+	 */
+	public void setProductRepository(ProductRepository productRepository) {
+		this.productRepository = productRepository;
 	}
 	
 }

@@ -20,11 +20,11 @@ import com.demo.actest.response.Order;
 @Service
 public class ListOrdersProcessor {
 	@Autowired
-	OrderRepository orderRepository;
+	private OrderRepository orderRepository;
 
 	public ListOrdersResponse process() {
 		ListOrdersResponse listOrdersResponse = new ListOrdersResponse();
-		List<Order> ordersList = orderRepository.getOrdersList();
+		List<Order> ordersList = this.getOrderRepository().getOrdersList();
 		if(ordersList != null){
 			listOrdersResponse.setOrderList(ordersList);
 			listOrdersResponse.setStatusMessage("Success");
@@ -34,6 +34,20 @@ public class ListOrdersProcessor {
 		}
 		listOrdersResponse.setOrderList(ordersList);
 		return listOrdersResponse;
+	}
+
+	/**
+	 * @return the orderRepository
+	 */
+	public OrderRepository getOrderRepository() {
+		return orderRepository;
+	}
+
+	/**
+	 * @param orderRepository the orderRepository to set
+	 */
+	public void setOrderRepository(OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
 	}
 	
 	

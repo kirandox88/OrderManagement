@@ -18,12 +18,12 @@ import com.demo.actest.response.PlaceOrderResponse;
 public class PlaceOrderProcessor {
 
 	@Autowired
-	OrderRepository orderRepository;
+	private OrderRepository orderRepository;
 	
-	public PlaceOrderResponse process(PlaceOrderResponse placeOrderResponse,PlaceOrderRequest placeOrderRequest) {
+	public PlaceOrderResponse process(PlaceOrderRequest placeOrderRequest) {
 		
-		String orderNumber = orderRepository.placeOrder(placeOrderRequest);
-		
+		String orderNumber = this.getOrderRepository().placeOrder(placeOrderRequest);
+		PlaceOrderResponse placeOrderResponse = new PlaceOrderResponse();
 		if(orderNumber != null){
 			placeOrderResponse.setResponseStatus("Success");
 			placeOrderResponse.setResponseMessage("Successfully placed the order");
@@ -35,6 +35,20 @@ public class PlaceOrderProcessor {
 		}
 		
 		return placeOrderResponse;
+	}
+
+	/**
+	 * @return the orderRepository
+	 */
+	public OrderRepository getOrderRepository() {
+		return orderRepository;
+	}
+
+	/**
+	 * @param orderRepository the orderRepository to set
+	 */
+	public void setOrderRepository(OrderRepository orderRepository) {
+		this.orderRepository = orderRepository;
 	}
 
 }
